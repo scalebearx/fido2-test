@@ -3,6 +3,14 @@ import abc
 
 # noinspection PyBroadException
 try:
+    from ctap_keyring_device.user_verifiers.windows_hello_ctap_user_verifier import (
+        WindowsHelloCtapUserVerifier,
+    )
+except Exception:
+    WindowsHelloCtapUserVerifier = None
+
+# noinspection PyBroadException
+try:
     from ctap_keyring_device.user_verifiers.touch_id_ctap_user_verifier import (
         TouchIdCtapUserVerifier,
     )

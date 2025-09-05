@@ -13,6 +13,13 @@ try:
 except ImportError:
     TouchIdCtapUserVerifier = None
 
+try:
+    from ctap_keyring_device.user_verifiers.windows_hello_ctap_user_verifier import (
+        WindowsHelloCtapUserVerifier,
+    )
+except ImportError:
+    WindowsHelloCtapUserVerifier = None
+
 
 class CtapUserVerifierFactory:
     """Creates a concrete instance of a CtapUserVerifier implementation, depending on the platform and available
@@ -25,5 +32,10 @@ class CtapUserVerifierFactory:
             touch_id_verifier = TouchIdCtapUserVerifier()
             if touch_id_verifier.available():
                 return touch_id_verifier
+
+        if system == 'Windows' and WindowsHelloCtapUserVerifier is not None:
+            windows_hello_verifier = WindowsHelloCtapUserVerifier()
+            if windows_hello_verifier.available():
+                return windows_hello_verifier
 
         return NoopCtapUserVerifier()
